@@ -15,4 +15,8 @@ public class EventMapper {
 	public JsonNode toJsonNode(Object event) {
 		return jsonMapper.valueToTree(event);
 	}
+	
+	public <T> T fromJson(String payload, Class<T> eventType) {
+		return jsonMapper.readValue(payload, eventType);
+	}
 }
