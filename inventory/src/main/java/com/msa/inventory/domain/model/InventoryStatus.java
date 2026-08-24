@@ -23,5 +23,12 @@ public enum InventoryStatus {
 	RELEASED,
 	
 	// 재고 부족 등으로 예약하지 못함
-	REJECTED
+	REJECTED,
+	
+	;
+	
+	public EventType getEventType() {
+		return EventType.matches(this);
+	}
+	
 }

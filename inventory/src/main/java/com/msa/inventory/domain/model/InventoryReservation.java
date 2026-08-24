@@ -1,6 +1,7 @@
 package com.msa.inventory.domain.model;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -87,6 +88,10 @@ public class InventoryReservation {
 		if(!valid) throw new IllegalStateException("주문을 해제할 수 있는 상태가 아닙니다.");
 		
 		this.status = InventoryStatus.RELEASED;
+	}
+	
+	public EventType getEventType() {
+		return this.status.getEventType();
 	}
 	
 	private boolean validateReserved() {
