@@ -3,8 +3,6 @@ package com.msa.inventory.domain.model;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.msa.inventory.adapter.messaging.OrderCreatedEvent;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,14 +36,18 @@ public class InventoryReservation {
 	@Column(name = "failure_message")
 	private String failureMessage;
 	
-	public static InventoryReservation reserved(OrderCreatedEvent orderCreatedEvent) {
+	public static InventoryReservation reserved(
+			UUID orderId,
+			UUID productId,
+			Integer quantity
+	) {
 		InventoryReservation inventoryReservation = new InventoryReservation();
 		
 		inventoryReservation.status = InventoryStatus.RESERVED;
 		
-		inventoryReservation.orderId = orderCreatedEvent.orderId();
-		inventoryReservation.productId = orderCreatedEvent.productId();
-		inventoryReservation.quantity = orderCreatedEvent.quantity();
+		inventoryReservation.orderId = orderId;
+		inventoryReservation.productId = productId;
+		inventoryReservation.quantity = quantity;
 		
 		inventoryReservation.failureMessage = null;
 		
@@ -53,16 +55,18 @@ public class InventoryReservation {
 	}
 	
 	public static InventoryReservation rejected(
-			OrderCreatedEvent orderCreatedEvent,
+			UUID orderId,
+			UUID productId,
+			Integer quantity,
 			String failureMessage
 	) {
 		InventoryReservation inventoryReservation = new InventoryReservation();
 		
 		inventoryReservation.status = InventoryStatus.REJECTED;
 		
-		inventoryReservation.orderId = orderCreatedEvent.orderId();
-		inventoryReservation.productId = orderCreatedEvent.productId();
-		inventoryReservation.quantity = orderCreatedEvent.quantity();
+		inventoryReservation.orderId = orderId;
+		inventoryReservation.productId = productId;
+		inventoryReservation.quantity = quantity;
 		
 		inventoryReservation.failureMessage = failureMessage;
 		

@@ -34,7 +34,11 @@ public class InventoryCommandAdapter implements InventoryCommandPort {
 		switch (updatedCount) {
 			// 재고 예약 성공
 			case 1 -> {
-				InventoryReservation reserved = InventoryReservation.reserved(orderCreatedEvent);
+				InventoryReservation reserved = InventoryReservation.reserved(
+						orderCreatedEvent.orderId(),
+						orderCreatedEvent.productId(),
+						orderCreatedEvent.quantity()
+				);
 				
 				reservationRepo.save(reserved);
 				
@@ -45,7 +49,12 @@ public class InventoryCommandAdapter implements InventoryCommandPort {
 			
 			// 재고 예약 실패 - 재고 부족
 			case 0 -> {
-				InventoryReservation rejected = InventoryReservation.rejected(orderCreatedEvent, "재고 부족");
+				InventoryReservation rejected = InventoryReservation.rejected(
+						orderCreatedEvent.orderId(),
+						orderCreatedEvent.productId(),
+						orderCreatedEvent.quantity(),
+						"재고 부족"
+				);
 				
 				reservationRepo.save(rejected);
 				
