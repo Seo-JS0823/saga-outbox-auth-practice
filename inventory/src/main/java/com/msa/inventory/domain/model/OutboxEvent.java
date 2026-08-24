@@ -1,5 +1,6 @@
 package com.msa.inventory.domain.model;
 
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,6 +47,12 @@ public class OutboxEvent {
 	@Enumerated(EnumType.STRING)
 	private OutboxStatus status;
 	
+	@Column(name = "created_at", nullable = false)
+	private Instant createdAt;
+	
+	@Column(name = "published_at")
+	private Instant publishedAt;
+	
 	public static OutboxEvent pending(
 			UUID eventId,
 			String aggregateType,
@@ -63,6 +70,8 @@ public class OutboxEvent {
 		outbox.topic = topic;
 		outbox.payload = payload;
 		outbox.status = OutboxStatus.PENDING;
+		outbox.createdAt = Instant.now();
+		outbox.publishedAt = null;
 		
 		return outbox;
 	}
@@ -73,6 +82,7 @@ public class OutboxEvent {
 		}
 		
 		this.status = OutboxStatus.PUBLISHED;
+		this.publishedAt = Instant.now();
 	}
 	
 	

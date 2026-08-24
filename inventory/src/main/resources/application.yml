@@ -27,6 +27,9 @@ spring:
       ack-mode: record
       
 app:
+  outbox:
+    publish-delay: 10000
+    
   kafka:
     topic:
       order-created: order.created.v1
