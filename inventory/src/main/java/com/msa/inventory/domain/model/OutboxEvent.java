@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tools.jackson.databind.JsonNode;
 
 @Entity
 @Table(name = "outbox_event")
@@ -39,7 +40,7 @@ public class OutboxEvent {
 	
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "payload", nullable = false, columnDefinition = "jsonb")
-	private String payload;
+	private JsonNode payload;
 	
 	@Column(name = "status", nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
@@ -51,7 +52,7 @@ public class OutboxEvent {
 			UUID aggregateId,
 			String eventType,
 			String topic,
-			String payload
+			JsonNode payload
 	) {
 		OutboxEvent outbox = new OutboxEvent();
 		
@@ -67,7 +68,7 @@ public class OutboxEvent {
 	}
 	
 	public void published() {
-		if(!Objects.equals(this.status, OutboxStatus.PUBLISHED)) {
+		if(Objects.equals(this.status, OutboxStatus.PUBLISHED)) {
 			return;
 		}
 		
