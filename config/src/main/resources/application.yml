@@ -1,0 +1,26 @@
+server:
+  port: 19000
+  
+spring:
+  config:
+    import: optional:file:.env[.properties]
+      
+  profiles:
+    active: native
+    
+  application:
+    name: config
+    
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo
+          
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: false

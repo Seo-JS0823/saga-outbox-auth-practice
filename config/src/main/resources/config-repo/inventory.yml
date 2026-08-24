@@ -1,0 +1,20 @@
+server:
+  port: 19094
+  
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    show_sql: true
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: false

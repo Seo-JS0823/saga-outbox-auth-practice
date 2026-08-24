@@ -1,0 +1,9 @@
+rootProject.name = 'mission'
+
+include 'config'
+include 'eureka'
+include 'gateway'
+include 'order'
+include 'payment'
+include 'inventory'
+include 'auth'

@@ -1,0 +1,30 @@
+spring:
+  config:
+    import:
+      - "configserver:http://localhost:19000"
+      - optional:file:.env[.properties]
+
+  application:
+    name: auth
+    
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+    
+jwt:
+  secret: ${JWT_SECRET}
+  access:
+    expiration: 1800s
+    
+app:
+  auth:
+    gateway-secret: ${GATEWAY_SECRET}
+    cookie:
+      secure: false
